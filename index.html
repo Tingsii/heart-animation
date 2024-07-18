@@ -20,45 +20,35 @@
 </head>
 <body>
     <canvas id="turtleCanvas" width="800" height="600"></canvas>
-    <script src="https://unpkg.com/turtle-canvas"></script>
     <script>
         const canvas = document.getElementById('turtleCanvas');
-        const turtle = new Turtle(canvas);
+        const ctx = canvas.getContext('2d');
 
-        function curve() {
-            for (let i = 0; i < 200; i++) {
-                turtle.right(1);
-                turtle.forward(2);
-            }
+        function drawHeart(ctx, x, y, width, height) {
+            ctx.beginPath();
+            ctx.moveTo(x, y + height / 4);
+            ctx.quadraticCurveTo(x, y, x + width / 2, y);
+            ctx.quadraticCurveTo(x + width, y, x + width, y + height / 4);
+            ctx.quadraticCurveTo(x + width, y + height / 2, x + width / 2, y + height);
+            ctx.quadraticCurveTo(x, y + height / 2, x, y + height / 4);
+            ctx.closePath();
+            ctx.fillStyle = 'red';
+            ctx.fill();
         }
 
-        function heart() {
-            turtle.penup();
-            turtle.goto(0, -100);
-            turtle.pendown();
-            turtle.color("red");
-            turtle.beginFill();
-            turtle.left(140);
-            turtle.forward(224);
-            curve();
-            turtle.left(120);
-            curve();
-            turtle.forward(224);
-            turtle.endFill();
+        function drawText(ctx, text, x, y) {
+            ctx.fillStyle = 'white';
+            ctx.font = '16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(text, x, y);
         }
 
-        heart();
+        function draw() {
+            drawHeart(ctx, canvas.width / 2 - 112, canvas.height / 2 - 100, 224, 200);
+            drawText(ctx, '三周年快乐 陈先生~', canvas.width / 2, canvas.height / 2 + 30);
+        }
 
-        // Move the turtle to the center of the heart to write the text
-        turtle.penup();
-        turtle.goto(0, 30);
-        turtle.pendown();
-
-        // Set up the text properties
-        turtle.color("white");
-        turtle.write("三周年快乐 陈先生~", "Arial", 16, "bold");
-
-        turtle.hideturtle();
+        draw();
     </script>
 </body>
 </html>
