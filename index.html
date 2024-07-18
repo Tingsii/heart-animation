@@ -25,12 +25,33 @@
         const ctx = canvas.getContext('2d');
 
         function drawHeart(ctx, x, y, width, height) {
+            const topCurveHeight = height * 0.3;
             ctx.beginPath();
-            ctx.moveTo(x, y + height / 4);
-            ctx.quadraticCurveTo(x, y, x + width / 2, y);
-            ctx.quadraticCurveTo(x + width, y, x + width, y + height / 4);
-            ctx.quadraticCurveTo(x + width, y + height / 2, x + width / 2, y + height);
-            ctx.quadraticCurveTo(x, y + height / 2, x, y + height / 4);
+            ctx.moveTo(x, y + topCurveHeight);
+            // top left curve
+            ctx.bezierCurveTo(
+                x, y,
+                x - width / 2, y,
+                x - width / 2, y + topCurveHeight
+            );
+            // bottom left curve
+            ctx.bezierCurveTo(
+                x - width / 2, y + (height + topCurveHeight) / 2,
+                x, y + (height + topCurveHeight) / 2,
+                x, y + height
+            );
+            // bottom right curve
+            ctx.bezierCurveTo(
+                x, y + (height + topCurveHeight) / 2,
+                x + width / 2, y + (height + topCurveHeight) / 2,
+                x + width / 2, y + topCurveHeight
+            );
+            // top right curve
+            ctx.bezierCurveTo(
+                x + width / 2, y,
+                x, y,
+                x, y + topCurveHeight
+            );
             ctx.closePath();
             ctx.fillStyle = 'red';
             ctx.fill();
@@ -44,7 +65,7 @@
         }
 
         function draw() {
-            drawHeart(ctx, canvas.width / 2 - 112, canvas.height / 2 - 100, 224, 200);
+            drawHeart(ctx, canvas.width / 2, canvas.height / 2 - 100, 224, 200);
             drawText(ctx, '三周年快乐 陈先生~', canvas.width / 2, canvas.height / 2 + 30);
         }
 
